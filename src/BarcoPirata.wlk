@@ -16,4 +16,8 @@ class BarcoPirata {
 	method tieneSuficienteTripulacion(){
 		return tripulantes.size() >= capacidad * 0.9
 	}
+	
+	method esVulnerableA(otroBarco){
+		return tripulantes.size() <= otroBarco.tripulantes().size() / 2
+	}
 }

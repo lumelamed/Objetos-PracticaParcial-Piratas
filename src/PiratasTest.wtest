@@ -1,0 +1,24 @@
+import Pirata.*
+import BarcoPirata.*
+import Mision.*
+import Item.*
+
+describe "Misiones Test"{
+	/*var mapa
+	var brujula
+	var loro
+	var cuchillo
+	var dienteDeOro
+	var botellaDeGrogXD
+	var llaveDeCofre*/
+	var barbanegra
+	
+	fixture {		
+		barbanegra = new Pirata(items = [brujula, cuchillo, cuchillo, dienteDeOro, botellaDeGrogXD, botellaDeGrogXD, botellaDeGrogXD], nivelEbriedad = 3, cantidadDinero = 5)	
+	}
+	test "testX" {
+
+		assert.that(true)
+
+	}
+}
