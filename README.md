@@ -1,6 +1,6 @@
 # Objetos-PracticaParcial-Piratas
 
-*Consigna
+*Consigna*
 
 Yaaar!
 
