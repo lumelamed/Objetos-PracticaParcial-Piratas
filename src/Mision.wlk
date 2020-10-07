@@ -15,7 +15,7 @@ class BusquedaDelTesoro inherits Mision {
 	
 	override method puedeSerRealizadaPor(unBarco){
 		return super(unBarco) &&
-			unBarco.tripulantes().anyOne({tripulante => tripulante.items().contains(llaveDeCofre)})
+			unBarco.tripulantes().any({tripulante => tripulante.items().contains(llaveDeCofre)})
 	}
 	
 	override method pirataCumpleRequisitos(unPirata){

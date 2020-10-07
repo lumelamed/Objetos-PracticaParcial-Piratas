@@ -11,3 +11,5 @@ object dienteDeOro {}
 object botellaDeGrogXD {}
 
 object llaveDeCofre {}
+
+object permisoDeLaCorona {}

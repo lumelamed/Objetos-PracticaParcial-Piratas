@@ -3,7 +3,7 @@ import BarcoPirata.*
 import Mision.*
 import Item.*
 
-describe "Misiones Test"{
+describe "Piratas Test"{
 	/*var mapa
 	var brujula
 	var loro
@@ -12,13 +12,64 @@ describe "Misiones Test"{
 	var botellaDeGrogXD
 	var llaveDeCofre*/
 	var barbanegra
+	var pirata2
+	var pirata3
+	var pirata4
+	var buscarElTesoro1
+	var convertirseEnLeyendaConMapa
+	var barco1
+	var barco2
+	var barco3
+	var ciudadCostera1
 	
 	fixture {		
-		barbanegra = new Pirata(items = [brujula, cuchillo, cuchillo, dienteDeOro, botellaDeGrogXD, botellaDeGrogXD, botellaDeGrogXD], nivelEbriedad = 3, cantidadDinero = 5)	
+		barbanegra = new Pirata(items = [brujula, cuchillo, cuchillo, dienteDeOro, botellaDeGrogXD, botellaDeGrogXD, botellaDeGrogXD], nivelEbriedad = 3, cantidadDinero = 6, pirataQueLoInvito = pirata2)
+		pirata2 = new Pirata(items = [], nivelEbriedad = 3, cantidadDinero = 4, pirataQueLoInvito = barbanegra)
+		pirata3 = new Pirata(items = [mapa,loro,loro,loro,loro,loro,loro,loro,loro,llaveDeCofre], nivelEbriedad = 4, cantidadDinero = 4, pirataQueLoInvito = barbanegra)
+		pirata4 = new Pirata(items = [mapa,loro,loro,loro,permisoDeLaCorona], nivelEbriedad = 4, cantidadDinero = 0, pirataQueLoInvito = barbanegra)
+		buscarElTesoro1 = new BusquedaDelTesoro()	
+		convertirseEnLeyendaConMapa = new ConvertirseEnLeyenda(itemObligatorio = mapa)
+		barco1 = new BarcoPirata(mision = buscarElTesoro1, capacidad = 2, tripulantes = #{barbanegra, pirata3})
+		barco2 = new BarcoPirata(mision = convertirseEnLeyendaConMapa, capacidad = 5, tripulantes = #{barbanegra, pirata2})
+		barco3 = new BarcoPirata(mision = convertirseEnLeyendaConMapa, capacidad = 5, tripulantes = #{pirata4, barbanegra, pirata2})
+		ciudadCostera1 = new CiudadCostera (cantidadDeHabitantes = 3)
 	}
-	test "testX" {
-
-		assert.that(true)
-
+	test "El pirata Barbanegra tiene 2 cuchillos y 3 botellas de GrogXD" {
+		assert.equals(2, barbanegra.items().occurrencesOf(cuchillo))
+		assert.equals(3, barbanegra.items().occurrencesOf(botellaDeGrogXD))
+	}
+	
+	test "El pirata Barbanegra no es util para la mision de Busqueda Del Tesoro por su cantidad de dinero" {
+		assert.notThat(barbanegra.esUtilParaMision(buscarElTesoro1))
+	}
+	
+	test "El pirata 2 no es util para la mision de Busqueda Del Tesoro porque no tiene items" {
+		assert.notThat(pirata2.esUtilParaMision(buscarElTesoro1))
+	}
+	
+	test "El pirata 3 es util para la mision de Convertirse en Leyenda, cuando el item obligatorio es el mapa" {
+		assert.that(pirata3.esUtilParaMision(convertirseEnLeyendaConMapa))
+	}
+	
+	test "El barco1 puede cumplir su mision, por lo tanto es temible" {
+		assert.that(barco1.esTemible())
+	}
+	
+	test "El barco2 puede agregar al pirata3 a su tripulacion" {
+		barco2.agregarTripulante(pirata3)
+		assert.that(barco2.tripulantes().contains(pirata3))
+	}
+	
+	test "El barco2 echa a toda su tripulacion cuando cambia su mision a Convertirse En Leyenda (con Mapa)" {
+		barco2.cambiarMision(convertirseEnLeyendaConMapa)
+		assert.that(barco2.tripulantes().isEmpty())
+	}
+	
+	test "El pirata 2 es el tripulante mas ebrio del barco1" {
+		assert.equals(pirata3, barco1.tripulanteMasEbrio())
+	}
+	
+	test "El barco 3 ancla en una ciudad costera, pero no pasa nada porque uno de sus tripulantes no tiene dinero suficiente" {
+		assert.throwsExceptionWithMessage("El pirata no tiene dinero para comprar el Grog XD", { barco3.anclarEn(ciudadCostera1) })
 	}
 }
